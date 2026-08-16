@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Emberlight — Worlds That Remember You</title>
+  <meta name="description" content="Emberlight is an independent game studio building cinematic worlds. Explore worlds, games, stories, art, and the people behind the ember.">
+  <meta name="theme-color" content="#0e0b09">
+
+  <!-- Fonts -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource-variable/fraunces/index.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource-variable/space-grotesk/index.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/ibm-plex-mono/400.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/ibm-plex-mono/500.css">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/fixes.css">
+</head>
+<body>
+  <a class="skip" href="#app">Skip to content</a>
+
+  <!-- Loader -->
+  <div id="loader" aria-hidden="true">
+    <div class="l-word" id="l-word"></div>
+    <div class="l-bar"><i id="l-fill"></i></div>
+    <div class="l-num" id="l-num">000</div>
+  </div>
+
+  <!-- Custom cursor -->
+  <div class="c-dot" aria-hidden="true"></div>
+  <div class="c-ring" aria-hidden="true"><span></span></div>
+
+  <!-- Film grain -->
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- Scroll progress -->
+  <div id="prog" aria-hidden="true"><i></i></div>
+
+  <!-- Navigation -->
+  <header id="nav">
+    <a class="logo" href="#/">Emberlight<span class="dot"></span></a>
+    <nav class="nav-links" aria-label="Primary" id="nav-links">
+      <a href="#/worlds" data-root="worlds">Worlds</a>
+      <a href="#/games" data-root="games">Games</a>
+      <a href="#/stories" data-root="stories">Stories</a>
+      <a href="#/art" data-root="art">Art</a>
+      <a href="#/studio" data-root="studio">Studio</a>
+      <a href="#/careers" data-root="careers">Careers</a>
+    </nav>
+    <div class="nav-utils">
+      <a class="icon-btn" href="#/saved" aria-label="Saved content">
+        <svg viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4-6 4z"/></svg>
+        <span class="badge" id="saved-n" hidden>0</span>
+      </a>
+      <a class="icon-btn" href="#/search" aria-label="Search">
+        <svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg>
+      </a>
+      <button id="menu-btn" class="icon-btn" aria-label="Open menu" aria-expanded="false" aria-controls="menu">
+        <span class="bars"><i></i><i></i></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Full-screen menu -->
+  <div id="menu" aria-hidden="true">
+    <div class="menu-inner">
+      <div>
+        <nav class="menu-links" aria-label="Main">
+          <a class="ml" href="#/"><span class="ml-n mono">00</span><span class="ml-t">Home</span></a>
+          <a class="ml" href="#/discover"><span class="ml-n mono">01</span><span class="ml-t">Discover</span></a>
+          <a class="ml" href="#/worlds"><span class="ml-n mono">02</span><span class="ml-t">Worlds</span></a>
+          <a class="ml" href="#/games"><span class="ml-n mono">03</span><span class="ml-t">Games</span></a>
+          <a class="ml" href="#/stories"><span class="ml-n mono">04</span><span class="ml-t">Stories</span></a>
+          <a class="ml" href="#/contact"><span class="ml-n mono">05</span><span class="ml-t">Contact</span></a>
+        </nav>
+      </div>
+      <div class="menu-side">
+        <div class="menu-cols">
+          <div>
+            <h5>Explore</h5>
+            <a href="#/characters">Characters</a>
+            <a href="#/art">Art</a>
+            <a href="#/collections">Collections</a>
+            <a href="#/archive">Archive</a>
+            <a href="#/media">Media</a>
+          </div>
+          <div>
+            <h5>Studio</h5>
+            <a href="#/studio">About</a>
+            <a href="#/timeline">Timeline</a>
+            <a href="#/careers">Careers</a>
+            <a href="#/press">Press</a>
+            <a href="#/news">News</a>
+          </div>
+          <div>
+            <h5>More</h5>
+            <a href="#/saved">Saved</a>
+            <a href="#/search">Search</a>
+            <a href="#/sitemap">Sitemap</a>
+            <a href="#/accessibility">Accessibility</a>
+          </div>
+        </div>
+        <form class="menu-search" id="menu-search">
+          <input type="search" placeholder="Search the studio…" aria-label="Search">
+          <svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg>
+        </form>
+        <div class="menu-meta mono">
+          <a href="mailto:hello@emberlight.studio">hello@emberlight.studio</a>
+          <span>Studio 4, 12 Foundry Lane</span>
+          <span>Instagram · Vimeo · X</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" role="status"></div>
+
+  <!-- Lightbox -->
+  <div id="lb" role="dialog" aria-modal="true" aria-label="Media viewer">
+    <button class="lb-x icon-btn" id="lb-x" aria-label="Close viewer">
+      <svg viewBox="0 0 24 24"><path d="M5 5l14 14M19 5L5 19"/></svg>
+    </button>
+    <div class="lb-in">
+      <img id="lb-img" alt="">
+      <div class="lb-meta mono">
+        <span id="lb-t"></span>
+        <span id="lb-s"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- App root -->
+  <main id="app"></main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="wrap">
+      <p class="f-word" aria-hidden="true">Emberlight<i>.</i></p>
+      <div class="f-grid">
+        <div>
+          <h4>Explore</h4>
+          <a href="#/worlds">Worlds</a>
+          <a href="#/games">Games</a>
+          <a href="#/characters">Characters</a>
+          <a href="#/art">Art</a>
+          <a href="#/collections">Collections</a>
+        </div>
+        <div>
+          <h4>Read</h4>
+          <a href="#/stories">Journal</a>
+          <a href="#/news">News</a>
+          <a href="#/media">Media</a>
+          <a href="#/archive">Archive</a>
+          <a href="#/timeline">Timeline</a>
+        </div>
+        <div>
+          <h4>Studio</h4>
+          <a href="#/studio">About</a>
+          <a href="#/careers">Careers</a>
+          <a href="#/press">Press</a>
+          <a href="#/contact">Contact</a>
+        </div>
+        <div>
+          <h4>You</h4>
+          <a href="#/saved">Saved</a>
+          <a href="#/search">Search</a>
+          <a href="#/discover">Discover</a>
+          <a href="#/sitemap">Sitemap</a>
+        </div>
+        <div>
+          <h4>Legal</h4>
+          <a href="#/privacy">Privacy</a>
+          <a href="#/terms">Terms</a>
+          <a href="#/accessibility">Accessibility</a>
+        </div>
+      </div>
+      <p class="kicker" style="color:var(--ember2)">The Ember Letter — one email a month. No noise.</p>
+      <form class="nl" id="nl" novalidate>
+        <input type="email" id="nl-mail" placeholder="your@email.com" aria-label="Email for newsletter">
+        <button type="submit" id="nl-btn">Join</button>
+      </form>
+      <p class="nl-msg" id="nl-msg"></p>
+      <div class="f-bottom" style="margin-top:40px">
+        <span class="mono">© 2026 Emberlight Studios — Made with fire</span>
+        <button id="top-btn" class="mono">Back to top ↑</button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <!-- App -->
+  <script src="js/gl.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

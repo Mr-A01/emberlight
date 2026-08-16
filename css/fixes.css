@@ -1,0 +1,291 @@
+/* ============================================================
+   Emberlight — Critical UI/UX & Layout Fixes
+   Production-ready overrides for overlapping, readability,
+   mobile, scroll, z-index, accessibility and performance.
+   ============================================================ */
+
+/* --- Stronger image scrims & text isolation --- */
+.fig {
+  isolation: isolate;
+}
+.fig img {
+  position: relative;
+  z-index: 0;
+}
+.fig figcaption {
+  z-index: 2;
+  background: rgba(14, 11, 9, 0.88);
+  backdrop-filter: blur(6px);
+  color: var(--paper);
+  text-shadow: 0 1px 2px rgba(0,0,0,.4);
+}
+
+/* Hero & large media overlays – ensure text never sits under photo */
+.hero-media::after,
+.cimg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    to top,
+    rgba(14, 11, 9, 0.75) 0%,
+    rgba(14, 11, 9, 0.15) 45%,
+    rgba(14, 11, 9, 0.4) 100%
+  );
+  z-index: 1;
+}
+.hero-media img,
+.cimg img {
+  position: relative;
+  z-index: 0;
+}
+
+/* Card text always above image */
+.card {
+  isolation: isolate;
+}
+.card .cimg {
+  position: relative;
+  z-index: 0;
+}
+.card .cmeta,
+.card .ctitle,
+.card .csub {
+  position: relative;
+  z-index: 2;
+  text-shadow: 0 1px 3px rgba(0,0,0,.25);
+}
+.dark .card .csub,
+.dark2 .card .csub {
+  color: var(--ash);
+}
+
+/* Save button always on top */
+.save-btn {
+  z-index: 5 !important;
+}
+
+/* --- Prevent cut-off / overflow --- */
+.sec,
+.dhead,
+.wrap {
+  overflow: visible;
+}
+#app {
+  min-height: 60vh;
+  overflow-x: clip;
+}
+.hstrip {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  padding-bottom: 28px;
+}
+
+/* --- Mobile layout hardening --- */
+@media (max-width: 900px) {
+  .split {
+    grid-template-columns: 1fr !important;
+    gap: 32px;
+  }
+  .menu-inner {
+    grid-template-columns: 1fr;
+    padding-top: calc(var(--nav-h) + 24px);
+  }
+  .menu-cols {
+    grid-template-columns: 1fr 1fr;
+  }
+  .f-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .stat-band {
+    grid-template-columns: 1fr 1fr;
+  }
+  .hero-media img {
+    object-position: center 30%;
+  }
+}
+
+@media (max-width: 640px) {
+  .g2, .g3, .g4 {
+    grid-template-columns: 1fr !important;
+  }
+  .menu-cols {
+    grid-template-columns: 1fr;
+  }
+  .f-grid {
+    grid-template-columns: 1fr;
+  }
+  .stat-band {
+    grid-template-columns: 1fr 1fr;
+  }
+  .pt {
+    font-size: clamp(36px, 11vw, 64px);
+  }
+  .h2 {
+    font-size: clamp(28px, 8vw, 48px);
+  }
+  .nav-utils {
+    gap: 2px;
+  }
+  .icon-btn {
+    width: 36px;
+    height: 36px;
+  }
+  #nav {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+  .hstrip .card {
+    width: min(85vw, 320px);
+  }
+}
+
+/* --- Text visibility under photos & dark sections --- */
+.light .lede,
+.light2 .lede {
+  color: var(--ashd);
+}
+.dark .lede,
+.dark2 .lede {
+  color: var(--ash);
+}
+.card .ctitle {
+  color: inherit;
+}
+
+/* Stronger contrast for mono labels on dark */
+.dark .mono,
+.dark2 .mono {
+  color: var(--ash);
+}
+
+/* --- Focus & accessibility --- */
+:focus-visible {
+  outline: 2px solid var(--ember);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+.skip:focus {
+  top: 16px;
+  outline: none;
+}
+
+/* --- Animation safety --- */
+@media (prefers-reduced-motion: reduce) {
+  .rv,
+  .rv-mask .ln-i,
+  .ticker-track,
+  .c-ring,
+  .c-dot {
+    transition: none !important;
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* --- Prevent sticky hero from pushing content off --- */
+.hero-wrap {
+  position: relative;
+  height: 100vh;
+  height: 100dvh;
+}
+.hero {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+/* Ensure progressive reveal works */
+.rv {
+  will-change: opacity, transform;
+}
+.rv.in {
+  opacity: 1;
+  transform: none;
+}
+
+/* Lightbox safety */
+#lb img {
+  max-height: min(70vh, 80dvh);
+}
+
+/* Form fields on light/dark */
+.light .field label,
+.light2 .field label {
+  color: var(--ashd);
+}
+.dark .field label,
+.dark2 .field label {
+  color: var(--ash);
+}
+
+/* Toast always visible */
+#toast {
+  z-index: 360;
+}
+
+/* Loader & grain above everything that matters */
+#loader { z-index: 400; }
+.grain { z-index: 130; pointer-events: none; }
+
+/* Cursor ring never blocks clicks */
+.c-dot, .c-ring {
+  pointer-events: none !important;
+}
+
+/* Horizontal strip controls */
+.strip-ctl button {
+  flex-shrink: 0;
+}
+
+/* Empty states */
+.empty {
+  width: 100%;
+}
+
+/* Archive list view on mobile */
+@media (max-width: 640px) {
+  .arch-list .card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+}
+
+/* Make sure progressive image loading doesn't cause layout shift */
+.cimg {
+  background: var(--coal2);
+}
+.light .cimg,
+.light2 .cimg {
+  background: var(--paper2);
+}
+
+/* Fix potential text cut-off in display headings */
+.display, .pt, .h2, .h3 {
+  overflow-wrap: break-word;
+  word-break: normal;
+  hyphens: none;
+}
+
+/* Ensure nav is always above content */
+#nav {
+  z-index: 200;
+}
+
+/* Menu full coverage */
+#menu {
+  z-index: 190;
+}
+
+/* Progress bar */
+#prog {
+  z-index: 210;
+}
